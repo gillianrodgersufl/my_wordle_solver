@@ -6,7 +6,7 @@ def generate_csv():
     #load in file
     wordle_data = np.loadtxt("wordle.txt", dtype='str')
     with open("./word_ranks.csv", 'w') as file:
-        ranked_words = rank_words(wordle_data, '')
+        ranked_words = rank_words(wordle_data)
         #write as dict to csv
         for key, value in ranked_words.items():
             file.write(f"{key}: {value}\n")
@@ -102,3 +102,5 @@ def word_rank(word, letter_map):
             rank += letter_map[letter]
         used_letters.append(letter)
     return rank
+
+print(generate_guess("", 'ggggg', True))
