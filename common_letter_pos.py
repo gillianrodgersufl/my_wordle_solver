@@ -3,7 +3,7 @@ import string
 alpha = list(string.ascii_lowercase)
 
 
-file = open('wordle.txt',"r")
+file = open('wordle_answers.txt',"r")
 valid_words = (file.read()).lower()
 valid_words = valid_words.split('\n')
 file.close()

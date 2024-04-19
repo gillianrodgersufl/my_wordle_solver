@@ -3,7 +3,7 @@ import string
 alpha = list(string.ascii_lowercase)
 alpha_count = [0]*len(alpha)
 
-file = open('wordle.txt',"r")
+file = open('wordle_answers.txt',"r")
 valid_words = (file.read()).lower()
 file.close()
 
