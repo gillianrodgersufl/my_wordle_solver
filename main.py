@@ -1,11 +1,9 @@
 import pygame
 import sys
 import random
-#import settings
 
 
 from welcome_screen import show_welcome_screen
-
 
 
 pygame.init()
@@ -86,7 +84,7 @@ def load_words(filename):
     return words
 
 # load valid words from file
-all_words = load_words('wordle.txt')
+all_words = load_words('wordle_answers.txt')
 word = random.choice(all_words)
 word_split = [*word]
 
@@ -98,7 +96,7 @@ def draw_grid(screen, guesses, feedback, grid_size=(5, 6), cell_size=55, cell_ma
     start_x = (screen_width - (grid_width * (cell_size + cell_margin) - cell_margin)) // 2
     start_y = (screen_height - (grid_height * (cell_size + cell_margin) - cell_margin)) // 4
 
-    # Define initial colors
+    # define initial colors
     border_color_initial = gray
     fill_color_initial = white
     text_color_initial = black
@@ -228,12 +226,49 @@ def draw_back_button(screen):
 
     return button_rect
 
-# Main game loop
+def draw_hint_button(screen):
+    button_color = (211, 211, 211)
+    text_color = black
+    button_font = pygame.font.SysFont('Georgia', 30)
+    button_text = "Hint"
+    button_rect = pygame.Rect(screen_width - 150, screen_height - 770, 100, 40)
+
+    # button rectangle
+    pygame.draw.rect(screen, button_color, button_rect)
+
+    # button text
+    text_surf = button_font.render(button_text, True, text_color)
+    text_rect = text_surf.get_rect(center=button_rect.center)
+    screen.blit(text_surf, text_rect)
+
+    return button_rect
+
+
+def draw_solver_button(screen):
+    button_color = (211, 211, 211)
+    text_color = black
+    button_font = pygame.font.SysFont('Georgia', 30)
+    button_text = "Solve"
+    button_rect = pygame.Rect(screen_width - 150, screen_height - 715, 100, 40)
+
+    pygame.draw.rect(screen, button_color, button_rect)
+
+    text_surf = button_font.render(button_text, True, text_color)
+    text_rect = text_surf.get_rect(center=button_rect.center)
+    screen.blit(text_surf, text_rect)
+
+    return button_rect
+
+
+
+# main game loop
 running = True
 current_guess = ""
 guesses = []
 feedback = []
 back_button_rect = draw_back_button(screen)
+
+
 
 
 
@@ -277,14 +312,14 @@ while running:
                     show_welcome_screen(screen)
 
 
-
     screen.fill(white)
     draw_title(screen, "Wordle", title_font)
     button_rect = draw_reset_button(screen, font)
     draw_keyboard(screen, key_feedback, guess_font)
     draw_grid(screen, guesses + [current_guess] if current_guess else guesses, feedback)
     back_button_rect = draw_back_button(screen)
-
+    hint_button_rect = draw_hint_button(screen)
+    solver_button_rect = draw_solver_button(screen)
 
     # draw the confetti is celebrtion true
     if celebration:
