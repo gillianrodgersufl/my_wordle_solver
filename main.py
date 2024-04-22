@@ -148,7 +148,22 @@ def draw_reset_button(screen, font):
 
     return button_rect
 
+def draw_guess_button(screen, font):
+    button_color = green
 
+    text_color = white
+    button_rect = pygame.Rect(screen_width / 2 - 85, screen_height / 2 + 110, 170, 50)
+
+    button_font = pygame.font.SysFont('Georgia', 20) 
+
+    pygame.draw.rect(screen, button_color, button_rect)
+
+    text_surface = button_font.render('Solver', True, text_color)
+    text_rect = text_surface.get_rect(center=button_rect.center)
+
+    screen.blit(text_surface, text_rect)
+
+    return button_rect
 
 
 # find feedback for a guess
@@ -281,6 +296,7 @@ while running:
     screen.fill(white)
     draw_title(screen, "Wordle", title_font)
     button_rect = draw_reset_button(screen, font)
+    guess_button = draw_guess_button(screen, font)
     draw_keyboard(screen, key_feedback, guess_font)
     draw_grid(screen, guesses + [current_guess] if current_guess else guesses, feedback)
     back_button_rect = draw_back_button(screen)
