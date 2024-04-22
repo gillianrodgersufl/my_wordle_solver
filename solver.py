@@ -31,9 +31,9 @@ def generate_guess(current_guess, guess_array, first):
     if len(result_words) > 0:
         new_guess = next(iter(result_words))
     #ensuring no repeated guesses
-    if new_guess == current_guess:
-        if len(result_words) > 1:
-            new_guess = next(next(iter(result_words)))
+        if new_guess == current_guess:
+            if len(result_words) > 1:
+                new_guess = next(next(iter(result_words)))
     #writing to the csv to make sure progress from this guess is saved
     with open("./word_ranks.csv", 'w') as file:
         for key, value in result_words.items():
@@ -103,4 +103,3 @@ def word_rank(word, letter_map):
         used_letters.append(letter)
     return rank
 
-print(generate_guess("", 'ggggg', True))

@@ -1,7 +1,7 @@
 import pygame
 import sys
 import random
-
+import solver
 
 from welcome_screen import show_welcome_screen
 
@@ -146,22 +146,7 @@ def draw_reset_button(screen, font):
 
     return button_rect
 
-def draw_guess_button(screen, font):
-    button_color = green
 
-    text_color = white
-    button_rect = pygame.Rect(screen_width / 2 - 85, screen_height / 2 + 110, 170, 50)
-
-    button_font = pygame.font.SysFont('Georgia', 20) 
-
-    pygame.draw.rect(screen, button_color, button_rect)
-
-    text_surface = button_font.render('Solver', True, text_color)
-    text_rect = text_surface.get_rect(center=button_rect.center)
-
-    screen.blit(text_surface, text_rect)
-
-    return button_rect
 
 
 # find feedback for a guess
@@ -313,6 +298,7 @@ while running:
                 current_guess = current_guess[:-1]  # remove last letter
             elif len(current_guess) < 5 and event.unicode.isalpha():
                 current_guess += event.unicode.lower()  # add new letter
+       
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
             if button_rect.collidepoint(mouse_pos):
@@ -322,6 +308,31 @@ while running:
                 current_guess = ""
                 celebration = False
                 confetti = []
+            elif solver_button_rect.collidepoint(mouse_pos) or hint_button_rect.collidepoint(mouse_pos):
+                first = True
+                last_guess = ""
+                last_feedback = []
+                feedback_string = ""
+                if (len(guesses) != 0):
+                    #if not first guess
+                    last_guess = guesses[-1]
+                    first = False
+                    last_feedback = feedback[-1]
+                    for color in last_feedback:
+                        if color == green:
+                            feedback_string += 'r'
+                        elif color == yellow:
+                            feedback_string += 'y'
+                        else:
+                            feedback_string += 'g'
+                else:
+                    feedback_string = 'ggggg'
+                new_guess = solver.generate_guess(last_guess, feedback_string, first)
+                if solver_button_rect.collidepoint(mouse_pos):
+                    current_guess = new_guess
+                else:
+                    guess_letters = len(current_guess)
+                    current_guess += new_guess[guess_letters]
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button_rect.collidepoint(event.pos):
                     show_welcome_screen(screen)
@@ -330,7 +341,6 @@ while running:
     screen.fill(white)
     draw_title(screen, "Wordle", title_font)
     button_rect = draw_reset_button(screen, font)
-    guess_button = draw_guess_button(screen, font)
     draw_keyboard(screen, key_feedback, guess_font)
     draw_grid(screen, guesses + [current_guess] if current_guess else guesses, feedback)
     back_button_rect = draw_back_button(screen)
