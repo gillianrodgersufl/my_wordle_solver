@@ -1,6 +1,6 @@
 import pygame
 import time
-from settings import apply_theme, draw_toggle_switch, handle_toggle_click
+#from settings import apply_theme, draw_toggle_switch, handle_toggle_click
 
 
 def show_welcome_screen(screen):
@@ -32,8 +32,8 @@ def show_welcome_screen(screen):
     button_rect = pygame.Rect(screen.get_width() / 2 - 100, 700, 200, 50)
 
     while running:
-        apply_theme(screen, is_light_mode)
-        draw_toggle_switch(screen, is_light_mode)  # not being used
+       # apply_theme(screen, is_light_mode)
+        #draw_toggle_switch(screen, is_light_mode)  # not being used
 
 
         mouse_pos = pygame.mouse.get_pos()
@@ -48,10 +48,10 @@ def show_welcome_screen(screen):
                 mouse_clicked = True
                 if settings_icon_rect.collidepoint(mouse_pos):
 
-                    is_light_mode = handle_toggle_click(event.pos, is_light_mode)
-                    apply_theme(screen, is_light_mode)
+                    #is_light_mode = handle_toggle_click(event.pos, is_light_mode)
+                   # apply_theme(screen, is_light_mode)
                     print("Settings icon clicked")
-                    draw_toggle_switch(screen, is_light_mode)
+                    #draw_toggle_switch(screen, is_light_mode)
 
         # button appearance logic (change color on hover)
         if button_rect.collidepoint(mouse_pos):
